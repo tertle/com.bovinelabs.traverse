@@ -4,9 +4,9 @@ Traverse is a NavMesh, Avoidance and Movement solution for Unity Entities built 
 
 Access and updates are provided on [Buy Me a Coffee](https://buymeacoffee.com/bovinelabs) and support on [Discord](https://discord.gg/RTsw6Cxvw3).
 
-Currently released as an experimental package with limited documentation and samples.
+**Currently released as an experimental package with limited documentation and samples.**
 
-![Baked](Documentation~/Images/Baked.png)
+![Baked](Documentation~/Images/baked.png)
 
 ## Quick Start
 
@@ -67,53 +67,13 @@ For runtime generation, the NavMesh is built automatically when the scene loads.
 
 ### Agent Configuration
 
-Agents are configured in the Navigation settings:
-
-```csharp
-[SettingsGroup("Navigation")]
-public class NavMeshSettings : SettingsBase
-{
-    // Agents with different sizes and capabilities
-    public Agent[] agents;
-    
-    // Areas with different properties
-    public Area[] customAreas;
-    
-    // Navigation layers for grouping areas
-    public Layer[] layers;
-    
-    // Query filters for pathfinding
-    public Filter[] navMeshQueryFilters;
-}
-```
+Agents are configured in the Navigation settings.
 
 ### Areas and Layers
 
 - **Areas**: Define surface properties (cost, traverse ability)
 - **Layers**: Group multiple areas for easy filtering
 - **Flags**: Control which areas an agent can traverse
-
-## Runtime Usage
-
-### Query NavMesh
-
-```csharp
-public partial struct FindPathJob : IJobEntity
-{
-    public NavMeshQueries Queries;
-    
-    void Execute(ref PathRequest request)
-    {
-        var query = Queries[JobsUtility.ThreadIndex];
-        
-        // Find random point on NavMesh
-        bool found = query.FindRandomPoint(ref random, out float3 point);
-        
-        // Cast ray on NavMesh
-        bool hit = query.Raycast(ref start, ref end, out float t, out float3 normal);
-    }
-}
-```
 
 ## Performance Considerations
 
@@ -189,6 +149,6 @@ A: These are known bugs in Entities and Entities Graphics related to LOD groups.
 
 A: The terrain converts to 25 million triangles and is stored uncompressed. However, the actual baked NavMesh is much smaller as it merges and removes many redundant faces.
 
-**Q: Will there be samples for movement avoidance?**
+**Q: Will there be samples for movement and avoidance?**
 
-A: Yes, they will be added shortly to the Baked and Runtime scenes as
+A: Yes, they will be added shortly to the Baked and Runtime scenes.
