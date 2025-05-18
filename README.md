@@ -4,9 +4,9 @@ Traverse is a NavMesh, Avoidance and Movement solution for Unity Entities built 
 
 Access and updates are provided on [Buy Me a Coffee](https://buymeacoffee.com/bovinelabs) and support on [Discord](https://discord.gg/RTsw6Cxvw3).
 
-Currently released as an experimental package with limited documentation and samples.
+**Currently released as an experimental package with limited documentation and samples.**
 
-![Baked](Documentation~/Images/Baked.png)
+![Baked](Documentation~/Images/baked.png)
 
 ## Quick Start
 
@@ -38,6 +38,29 @@ For baked surfaces:
 
 For runtime generation, the NavMesh is built automatically when the scene loads.
 
+### 5. Create Move Agents
+
+1. Add `MoveAgentAuthoring` to a GameObject
+2. To move an agent, write the destination or direction to `CrowdAgentData` and enable the `IsPathfinding` component
+
+```csharp
+public static void MoveTo(ref CrowdAgentData crowdAgentData, EnabledRefRW<IsPathfinding> isPathfinding, float3 targetPosition)
+{
+    crowdAgentData.TargetPosition = targetPosition;
+    isPathfinding.ValueRW = true;
+    // Alternatively you can walk in a specific direct instead of doing pathfinding, useful for WASD style movement
+    // crowdAgentData.TargetDirection = targetDirection;
+}
+```
+
+### 6. (Optionally) Setup Systems
+
+If you using BovineLabs Essence (Stat package) this step is optional as it has built in support, otherwise you will need to implement the following 4 systems:
+
+`AvoidanceReadSystem`, `AvoidanceWriteSystem`, `MoveApplySystem`, and `MoveProcessPathSystem`
+
+Check the samples for an example of the implementation.
+
 ## Key Concepts
 
 ### NavMesh Surfaces
@@ -67,53 +90,15 @@ For runtime generation, the NavMesh is built automatically when the scene loads.
 
 ### Agent Configuration
 
-Agents are configured in the Navigation settings:
+Agents are configured in the Navigation settings.
 
-```csharp
-[SettingsGroup("Navigation")]
-public class NavMeshSettings : SettingsBase
-{
-    // Agents with different sizes and capabilities
-    public Agent[] agents;
-    
-    // Areas with different properties
-    public Area[] customAreas;
-    
-    // Navigation layers for grouping areas
-    public Layer[] layers;
-    
-    // Query filters for pathfinding
-    public Filter[] navMeshQueryFilters;
-}
-```
+Entities can be assigned as an agent by Adding the `MoveAgentAuthoring` component.
 
 ### Areas and Layers
 
 - **Areas**: Define surface properties (cost, traverse ability)
 - **Layers**: Group multiple areas for easy filtering
 - **Flags**: Control which areas an agent can traverse
-
-## Runtime Usage
-
-### Query NavMesh
-
-```csharp
-public partial struct FindPathJob : IJobEntity
-{
-    public NavMeshQueries Queries;
-    
-    void Execute(ref PathRequest request)
-    {
-        var query = Queries[JobsUtility.ThreadIndex];
-        
-        // Find random point on NavMesh
-        bool found = query.FindRandomPoint(ref random, out float3 point);
-        
-        // Cast ray on NavMesh
-        bool hit = query.Raycast(ref start, ref end, out float t, out float3 normal);
-    }
-}
-```
 
 ## Performance Considerations
 
@@ -155,7 +140,7 @@ This scene demonstrates baking a NavMesh in the Editor and loading it at runtime
 3. Once baking is complete, switch to the `Baked` scene in `Sample/Scenes`
 4. Enter play mode
 
-The baked scene should load immediately.
+The baked scene should load immediately and 5,000 agents should be randomly walking around the scene.
 
 #### Runtime Scene
 
@@ -163,7 +148,9 @@ This scene demonstrates baking a NavMesh at runtime.
 
 **Location:** `Sample/Scenes/Runtime`
 
-**Note**: Due to the large nature of the sample scene, it may take 10-15 seconds to bake at runtime.
+**Note**: Due to the large nature of the sample scene with no optimizations, it may take 10 seconds to bake at runtime.
+
+Once built, 5,000 agents should be randomly walking around the scene.
 
 #### NavMesh Stress Scene
 
@@ -189,6 +176,6 @@ A: These are known bugs in Entities and Entities Graphics related to LOD groups.
 
 A: The terrain converts to 25 million triangles and is stored uncompressed. However, the actual baked NavMesh is much smaller as it merges and removes many redundant faces.
 
-**Q: Will there be samples for movement avoidance?**
+**Q: Will there be samples for movement and avoidance?**
 
-A: Yes, they will be added shortly to the Baked and Runtime scenes as
+A: Yes, they will be added shortly to the Baked and Runtime scenes.

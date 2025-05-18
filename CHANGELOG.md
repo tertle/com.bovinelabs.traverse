@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.0-exp.1] - 2025-04-11
+## [0.9.0-exp.2] - 2025-05-18
 
 ### Added
 * Initial release
