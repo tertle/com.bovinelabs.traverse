@@ -113,10 +113,15 @@ Entities can be assigned as an agent by Adding the `MoveAgentAuthoring` componen
 
 1. Create a new project in Unity 6.0/6.1
 2. Download and import **Fantasy Kingdom in Unity 6** from the [Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/fantasy-kingdom-in-unity-6-urp-298128)
-3. Import `com.bovinelabs.traverse` and its dependencies
-4. Enable Core Extensions under **BovineLabs** → **Features**, making sure you hit **Apply**
-   1. **Note**: Extensions are optional for the NavMesh but required for the sample
-5. Import the samples from the Package Manager, under the **BovineLabs Traverse Samples** tab
+3. Install the Unity Physics and Entities Graphics packages
+   1. **NOTE**: Entities Graphics 1.4.12 breaks baking and adaptive probe, for this sample use 1.4.8
+   2. **Note**: Unity Physics are optional for Traverse but required for the sample 
+4. Copy `com.bovinelabs.traverse` and its dependencies into the /Packages/ directory
+   1. You'll need to fix 2 `Editor` errors in the **Fantasy Kingdom** package by prefixing UnityEditor.Editor
+5. Enable Core Extensions under **BovineLabs** → **Features**, making sure you hit **Apply**
+   1. **Note**: Extensions are optional for the Traverse but required for the sample
+   2. You may need to restart Unity due to performance package
+6. Import the samples from the Package Manager, under the **BovineLabs Traverse Samples** tab
 
 ### Baking the Terrain
 
