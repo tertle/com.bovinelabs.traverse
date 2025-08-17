@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.10.0-exp.1] - 2025-08-17
+
+### Added
+* Compression to baking
+* Compression to terrain
+
+### Changed
+* Rewrote Recast as HPC and removed native libraries
+
 ## [0.9.0-exp.3] - 2025-06-07
 
 ### Added
